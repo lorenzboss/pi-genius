@@ -36,6 +36,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "99b066c4-fb8e-44ad-8ce6-06c719689f2f"
+      }
+    },
+    "owner": "lorenzboss"
   }
 }
