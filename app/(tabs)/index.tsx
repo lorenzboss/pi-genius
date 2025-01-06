@@ -1,14 +1,12 @@
 import CustomKeyboard from "@/components/CustomKeyboard";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
-import { piString } from "@/utils/pi";
+import { pi } from "@/utils/pi";
 import supabase from "@/utils/supabase";
 import { User } from "@supabase/supabase-js";
 import * as Haptics from "expo-haptics";
 import { useEffect, useState } from "react";
 import { Button, Platform, SafeAreaView, StyleSheet } from "react-native";
-
-const pi: String = piString;
 
 export default function HomeScreen() {
   const [input, setInput] = useState("3."); // Startet direkt mit "3"
@@ -31,7 +29,7 @@ export default function HomeScreen() {
   }, []);
 
   const fetchHighscore = async (userId: string) => {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("highscores")
       .select("score")
       .eq("user_id", userId)
@@ -45,7 +43,7 @@ export default function HomeScreen() {
   const handleInputChange = (value: string) => {
     setInput((prevInput) => prevInput + value);
 
-    if (input + value !== piString.slice(0, input.length + 1)) {
+    if (input + value !== pi.slice(0, input.length + 1)) {
       if (Platform.OS !== "web") {
         Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
       }
