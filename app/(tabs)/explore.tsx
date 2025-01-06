@@ -1,7 +1,8 @@
-import { SafeAreaView, StyleSheet } from "react-native";
+import { Button, SafeAreaView, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import * as Haptics from "expo-haptics";
 
 export default function TabTwoScreen() {
   return (
@@ -12,6 +13,20 @@ export default function TabTwoScreen() {
           <ThemedText>
             This is an example explore screen. You can browse content here.
           </ThemedText>
+          <Button
+            onPress={() => {
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            }}
+            title="Correct (Impact Light)"
+          />
+          <Button
+            onPress={() => {
+              Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Warning
+              );
+            }}
+            title="Incorrect (Notification Warning)"
+          />
         </ThemedView>
       </SafeAreaView>
     </ThemedView>
