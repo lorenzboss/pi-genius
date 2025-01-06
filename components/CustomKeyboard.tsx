@@ -8,7 +8,7 @@ type CustomKeyboardProps = {
 
 export default function CustomKeyboard({ onPress }: CustomKeyboardProps) {
   const createButton = (value: string) => (
-    <Pressable style={styles.button} onPress={() => onPress(value)}>
+    <Pressable style={styles.button} onPress={() => onPress(value)} key={value}>
       <Text style={styles.buttonText}>{value}</Text>
     </Pressable>
   );
@@ -51,5 +51,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "JetBrainsMono",
   },
 });
