@@ -39,13 +39,3 @@ jobs:
         
       - name: Run Tests
         run: npm run test:ci
-        
-      - name: Build Web Version
-        run: npm run web
-        
-      - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: web-build
-          path: web-build/
-          retention-days: 7
