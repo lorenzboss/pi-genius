@@ -2,85 +2,50 @@ name: Expo React Native CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  lint:
+  build-and-test:
     runs-on: ubuntu-latest
+    
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          node-version: '23'
+          node-version: '18'
+          cache: 'npm'
+          
+      - name: Cache dependencies
+        id: cache-deps
+        uses: actions/cache@v3
+        with:
+          path: |
+            **/node_modules
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm-
 
       - name: Install dependencies
-        run: |
-          npm install
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: npm ci
 
-      - name: Run linting
-        run: |
-          npm run lint
-
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Run Linting
+        run: npm run lint
+        
+      - name: Run Tests
+        run: npm run test:ci
+        
+      - name: Build Web Version
+        run: npm run web
+        
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
         with:
-          node-version: '23'
-
-      - name: Install dependencies
-        run: |
-          npm install
-
-      - name: Run tests
-        run: |
-          npm run test
-
-  android:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '23'
-
-      - name: Install dependencies
-        run: |
-          npm install
-
-      - name: Run Expo start for Android
-        run: |
-          npm run android
-
-  ios:
-    runs-on: macos-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '23'
-
-      - name: Install dependencies
-        run: |
-          npm install
-
-      - name: Run Expo start for iOS
-        run: |
-          npm run ios
+          name: web-build
+          path: web-build/
+          retention-days: 7
