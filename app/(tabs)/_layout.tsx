@@ -1,5 +1,4 @@
 import { Tabs } from "expo-router";
-import React from "react";
 import { Platform } from "react-native";
 
 import { HapticTab } from "@/components/HapticTab";
@@ -32,7 +31,12 @@ export default function TabLayout() {
         options={{
           title: "Home",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="house.fill" color={color} />
+            <IconSymbol
+              size={28}
+              name="house.fill"
+              android="home"
+              color={color}
+            />
           ),
         }}
       />
@@ -41,7 +45,12 @@ export default function TabLayout() {
         options={{
           title: "Explore",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="paperplane.fill" color={color} />
+            <IconSymbol
+              size={28}
+              name="paperplane.fill"
+              android="send"
+              color={color}
+            />
           ),
         }}
       />
@@ -50,7 +59,12 @@ export default function TabLayout() {
         options={{
           title: "Settings",
           tabBarIcon: ({ color }) => (
-            <IconSymbol size={28} name="gearshape" color={color} />
+            <IconSymbol
+              size={28}
+              name="gear"
+              android="settings"
+              color={color}
+            />
           ),
         }}
       />

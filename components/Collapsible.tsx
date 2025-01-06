@@ -23,6 +23,7 @@ export function Collapsible({
       >
         <IconSymbol
           name="chevron.right"
+          android="chevron-right"
           size={18}
           weight="medium"
           color={theme === "light" ? Colors.light.icon : Colors.dark.icon}
