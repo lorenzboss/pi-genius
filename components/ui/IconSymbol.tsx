@@ -1,4 +1,5 @@
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { useTheme } from "@react-navigation/native"; // Oder eine andere Theme-Lösung
 import { SymbolView, SymbolWeight } from "expo-symbols";
 import React from "react";
 import {
@@ -14,14 +15,12 @@ import {
  * This ensures a consistent look across platforms, and optimal resource usage.
  *
  * Example usage:
- * ```tsx
  * <IconSymbol
  *   ios="house.fill"
  *   android="home"
  *   size={24}
- *   color="black"
+ *   color="black" // Optional
  * />
- * ```
  */
 export function IconSymbol({
   name,
@@ -34,10 +33,14 @@ export function IconSymbol({
   name: import("expo-symbols").SymbolViewProps["name"];
   android: React.ComponentProps<typeof MaterialIcons>["name"];
   size?: number;
-  color: string | OpaqueColorValue;
+  color?: string | OpaqueColorValue;
   style?: StyleProp<TextStyle>;
   weight?: SymbolWeight;
 }) {
+  const theme = useTheme();
+  const defaultColor = theme.colors.text;
+  const resolvedColor = typeof color === "string" ? color : defaultColor;
+
   return Platform.OS === "ios" ? (
     <SymbolView
       name={name}
@@ -50,7 +53,7 @@ export function IconSymbol({
             : "large"
           : undefined
       }
-      colors={[color as string]}
+      colors={[resolvedColor as string]}
       style={style as StyleProp<ViewStyle>}
       weight={weight}
     />
@@ -58,7 +61,7 @@ export function IconSymbol({
     <MaterialIcons
       name={android}
       size={size}
-      color={color as string}
+      color={resolvedColor as string}
       style={style}
     />
   );
