@@ -21,7 +21,7 @@ export function HelloWave() {
       ),
       7 // Run the animation 7 times
     );
-  }, []);
+  }, [rotationAnimation]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotationAnimation.value}deg` }],
