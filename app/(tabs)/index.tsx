@@ -70,6 +70,11 @@ export default function HomeScreen() {
     }
   };
 
+  const handleReset = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy);
+    resetInput();
+  };
+
   const resetInput = () => {
     setInput("3.");
     if (scrollViewRef.current) {
@@ -81,30 +86,31 @@ export default function HomeScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.mainView}>
-      <ThemedView style={styles.container}>
-        <ThemedText>Willkommen {user ? user.email : "Gast"}</ThemedText>
-        <ThemedText>Dein Highscore: {highscore}</ThemedText>
-        <ScrollView
-          ref={scrollViewRef}
-          horizontal
-          contentContainerStyle={styles.inputScrollContainer}
-          showsHorizontalScrollIndicator={false}
-          scrollEnabled={true}
-        >
-          <ThemedText style={styles.inputString}>{input}</ThemedText>
-        </ScrollView>
-        <CustomKeyboard onPress={handleInputChange} />
-        <Button title="Neustart" onPress={resetInput} />
-      </ThemedView>
-    </SafeAreaView>
+    <ThemedView style={styles.mainView}>
+      <SafeAreaView>
+        <ThemedView style={styles.container}>
+          <ThemedText>Willkommen {user ? user.email : "Gast"}</ThemedText>
+          <ThemedText>Dein Highscore: {highscore}</ThemedText>
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            contentContainerStyle={styles.inputScrollContainer}
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={true}
+          >
+            <ThemedText style={styles.inputString}>{input}</ThemedText>
+          </ScrollView>
+          <CustomKeyboard onPress={handleInputChange} />
+          <Button title="Neustart" onPress={handleReset} />
+        </ThemedView>
+      </SafeAreaView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
-    backgroundColor: "#ffffff",
   },
   container: {
     padding: 32,
