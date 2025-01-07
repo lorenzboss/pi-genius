@@ -1,18 +1,24 @@
-import { Button, SafeAreaView, StyleSheet } from "react-native";
+import { Button, SafeAreaView, ScrollView, StyleSheet } from "react-native";
 
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { formattedPi } from "@/utils/pi";
 import * as Haptics from "expo-haptics";
+import { useRef } from "react";
 
 export default function TabTwoScreen() {
+  const scrollViewRef = useRef<ScrollView>(null);
+
   return (
     <ThemedView style={styles.mainView}>
       <SafeAreaView>
         <ThemedView style={styles.container}>
           <ThemedText type="title">Explore</ThemedText>
           <ThemedText>
-            This is an example explore screen. You can browse content here.
+            Learn & test specific section (one section is 10 digits) of the
+            number pi.
           </ThemedText>
+          <ThemedText>Write the numbers with sections vertically! </ThemedText>
           <Button
             onPress={() => {
               Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
@@ -27,6 +33,16 @@ export default function TabTwoScreen() {
             }}
             title="Incorrect (Notification Warning)"
           />
+
+          <ScrollView
+            ref={scrollViewRef}
+            horizontal
+            contentContainerStyle={styles.inputScrollContainer}
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={true}
+          >
+            <ThemedText style={styles.inputString}>{formattedPi}</ThemedText>
+          </ScrollView>
         </ThemedView>
       </SafeAreaView>
     </ThemedView>
@@ -40,5 +56,14 @@ const styles = StyleSheet.create({
   container: {
     padding: 32,
     gap: 16,
+  },
+  inputScrollContainer: {
+    alignItems: "center",
+  },
+  inputString: {
+    lineHeight: 50,
+    fontSize: 40,
+    textAlign: "center",
+    fontFamily: "JetBrainsMono",
   },
 });
