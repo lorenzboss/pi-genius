@@ -5,13 +5,20 @@ import { pi } from "@/utils/pi";
 import supabase from "@/utils/supabase";
 import { User } from "@supabase/supabase-js";
 import * as Haptics from "expo-haptics";
-import { useEffect, useState } from "react";
-import { Button, Platform, SafeAreaView, StyleSheet } from "react-native";
+import { useEffect, useRef, useState } from "react";
+import {
+  Button,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
 
 export default function HomeScreen() {
-  const [input, setInput] = useState("3."); // Startet direkt mit "3"
+  const [input, setInput] = useState("3.");
   const [highscore, setHighscore] = useState(0);
   const [user, setUser] = useState<User | null>(null);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
     const getCurrentUser = async () => {
@@ -52,35 +59,59 @@ export default function HomeScreen() {
       if (Platform.OS !== "web") {
         Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
       }
+
+      setTimeout(() => {
+        if (scrollViewRef.current) {
+          scrollViewRef.current.scrollToEnd({
+            animated: true,
+          });
+        }
+      }, 100);
     }
   };
 
   const resetInput = () => {
     setInput("3.");
+    if (scrollViewRef.current) {
+      scrollViewRef.current.scrollTo({
+        x: 0,
+        animated: true,
+      });
+    }
   };
 
   return (
-    <ThemedView style={styles.mainView}>
-      <SafeAreaView>
-        <ThemedView style={styles.container}>
-          <ThemedText>Willkommen {user ? user.email : "Gast"}</ThemedText>
-          <ThemedText>Dein Highscore: {highscore}</ThemedText>
+    <SafeAreaView style={styles.mainView}>
+      <ThemedView style={styles.container}>
+        <ThemedText>Willkommen {user ? user.email : "Gast"}</ThemedText>
+        <ThemedText>Dein Highscore: {highscore}</ThemedText>
+        <ScrollView
+          ref={scrollViewRef}
+          horizontal
+          contentContainerStyle={styles.inputScrollContainer}
+          showsHorizontalScrollIndicator={false}
+          scrollEnabled={true}
+        >
           <ThemedText style={styles.inputString}>{input}</ThemedText>
-          <CustomKeyboard onPress={handleInputChange} />
-          <Button title="Neustart" onPress={resetInput} />
-        </ThemedView>
-      </SafeAreaView>
-    </ThemedView>
+        </ScrollView>
+        <CustomKeyboard onPress={handleInputChange} />
+        <Button title="Neustart" onPress={resetInput} />
+      </ThemedView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
+    backgroundColor: "#ffffff",
   },
   container: {
     padding: 32,
     gap: 16,
+  },
+  inputScrollContainer: {
+    alignItems: "center",
   },
   inputString: {
     lineHeight: 50,
