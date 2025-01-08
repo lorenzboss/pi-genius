@@ -29,14 +29,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "Practice",
           tabBarIcon: ({ color }) => (
-            <IconSymbol
-              size={28}
-              name="house.fill"
-              android="home"
-              color={color}
-            />
+            <IconSymbol size={28} name="pencil" android="edit" color={color} />
           ),
         }}
       />
@@ -47,8 +42,8 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol
               size={28}
-              name="paperplane.fill"
-              android="send"
+              name="text.magnifyingglass"
+              android="explore"
               color={color}
             />
           ),

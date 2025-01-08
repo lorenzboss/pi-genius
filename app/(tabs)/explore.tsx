@@ -13,7 +13,7 @@ export default function TabTwoScreen() {
     <ThemedView style={styles.mainView}>
       <SafeAreaView>
         <ThemedView style={styles.container}>
-          <ThemedText type="title">Explore</ThemedText>
+          <ThemedText type="title">Explore π</ThemedText>
           <ThemedText>
             Learn & test specific section (one section is 10 digits) of the
             number pi.
